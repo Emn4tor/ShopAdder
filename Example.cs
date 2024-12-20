@@ -2,55 +2,156 @@
 using Unity.Mathematics;
 using UnityEngine;
 using Zorro.Settings;
+using Zorro.Core;
 
-// ExampleCWPlugin is mostly an example of how to use the modding API, not an actual serious mod.
-// It adds a setting to the Mods settings page, which is a slider from 0 to 100.
-// It then edits the Flashlight.Update method to prevent the battery of the flashlight
-// from falling below that setting value.
 
-namespace ExampleCWPlugin;
-
-// The first argument is the GUID for this mod. This must be globally unique across all mods.
-// Consider prefixing your name/etc. to the GUID. (or generate an actual GUID)
-[ContentWarningPlugin("ExampleCWPlugin", "0.1", false)]
-public class PluginTy
+namespace ExampleCWPlugin
 {
-    static PluginTy()
+    
+    
+
+
+    [ContentWarningPlugin("emn4tor.ItemAdder", "1.0.0", true)]
+    public class Example
     {
-        // Static constructors of types marked with ContentWarningPluginAttribute are automatically invoked on load.
-        // Register callbacks, construct stuff, etc. here.
-        Debug.Log("Hello from ExampleCWPlugin! This is called on plugin load");
-        // Adding the [ContentWarningSetting] attribute to a setting class is basically the same as:
-        // GameHandler.Instance.SettingsHandler.AddSetting(new ExampleSetting());
+        static Example()
+        {
+        }
+
+        [HarmonyPatch(typeof(ShopViewScreen))]
+        public class ShopViewScreenPatch
+        {
+            [HarmonyPatch("Awake"), HarmonyPostfix]
+            static void AwakePatch(ShopViewScreen __instance)
+            {
+                Debug.Log("Starting to register items...");
+                ShopCategories.Initialize();
+                ShopCategories.RegisterCategory("Electronics");
+                // Loop through all items in the ItemDatabase
+                foreach (var item in SingletonAsset<ItemDatabase>.Instance.Objects)
+                {
+                    Debug.Log($"Found item: {item.displayName}");
+
+                    if (item.displayName == "Camera")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc; // Use new category here
+                        item.price = 100;
+                        Debug.Log("Registered Camera");
+                    }
+                    if (item.displayName == "Radio");
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 100;
+                        Debug.Log("Registered Radio");
+                    }
+                    if (item.displayName == "Walkie-talkie")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 200;
+                        Debug.Log("Registered WalkieTalkie");
+                    }
+                    if (item.displayName == "Grabber")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 150;
+                        Debug.Log("Registered GrabberArm");
+                    }
+                    if (item.displayName == "Apple")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Medical;
+                        item.price = 10;
+                        Debug.Log("Registered Apple");
+                    }
+                    if (item.displayName == "Dance 104")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Medical;
+                        item.price = 200;
+                        Debug.Log("Registered Dance 104");
+                    }
+                    if (item.displayName == "")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 200;
+                        Debug.Log("Registered Emote_Dance4TokTok");
+                    }
+                    if (item.displayName == "HardHat")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 200;
+                        Debug.Log("Registered HardHat");
+                    }
+                    if (item.displayName == "Norf Gun")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 150;
+                        Debug.Log("Registered NorfGun");
+                    }
+                    if (item.displayName == "Hermans Borkin Bag")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Medical;
+                        item.price = 100;
+                        Debug.Log("Registered HermansBag");
+                    }
+                    if (item.displayName == "FredGull")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Medical;
+                        item.price = 50;
+                        Debug.Log("Registered FredGull");
+                    }
+                    if (item.displayName == "PersistentRadio")
+                    {
+                        item.displayName = "Persistent Radio";
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Medical;
+                        item.price = 200;
+                        Debug.Log("Registered PersistentRadio");
+                    }
+                    if (item.displayName == "SirMonsterBurger")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 100;
+                        Debug.Log("Registered SirMonsterBurger");
+                    }
+                    if (item.displayName == "Winch")
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 150;
+                        Debug.Log("Registered Winch");
+                    }
+                    
+                    
+                }
+                
+            }
+        }
     }
 }
 
-// Harmony patches are automatically applied by the vanilla modloader.
-// If 0Harmony.dll is already loaded by BepInEx, then BepInEx's harmony will be used instead.
-[HarmonyPatch(typeof(Flashlight))]
-[HarmonyPatch("Update")]
-public class Patch
-{
-    static AccessTools.FieldRef<Flashlight, BatteryEntry> batteryEntry =
-        AccessTools.FieldRefAccess<Flashlight, BatteryEntry>("m_batteryEntry");
-    static ExampleSetting? exampleSetting;
 
-    static bool Prefix(Flashlight __instance)
-    {
-        exampleSetting ??= GameHandler.Instance.SettingsHandler.GetSetting<ExampleSetting>();
-        var bat = batteryEntry(__instance);
-        bat.m_charge = Mathf.Max(bat.m_charge, bat.m_maxCharge * (exampleSetting.Value / 100));
-        return true;
-    }
-}
-
-// Don't forget to inherit from IExposedSetting too!
-[ContentWarningSetting]
-public class ExampleSetting : FloatSetting, IExposedSetting {
-    public override void ApplyValue() => Debug.Log($"omg, mod setting changed to {Value}");
-    protected override float GetDefaultValue() => 100;
-    protected override float2 GetMinMaxValue() => new(0, 100);
-    // Prefer using the Mods category
-    public SettingCategory GetSettingCategory() => SettingCategory.Mods;
-    public string GetDisplayName() => "Example mod setting";
-}
