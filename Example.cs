@@ -4,13 +4,8 @@ using UnityEngine;
 using Zorro.Settings;
 using Zorro.Core;
 
-
 namespace ExampleCWPlugin
 {
-    
-    
-
-
     [ContentWarningPlugin("emn4tor.ItemAdder", "1.0.0", true)]
     public class Example
     {
@@ -25,8 +20,7 @@ namespace ExampleCWPlugin
             static void AwakePatch(ShopViewScreen __instance)
             {
                 Debug.Log("Starting to register items...");
-                ShopCategories.Initialize();
-                ShopCategories.RegisterCategory("Electronics");
+
                 // Loop through all items in the ItemDatabase
                 foreach (var item in SingletonAsset<ItemDatabase>.Instance.Objects)
                 {
@@ -36,11 +30,11 @@ namespace ExampleCWPlugin
                     {
                         item.spawnable = true;
                         item.purchasable = true;
-                        item.Category = ShopItemCategory.Misc; // Use new category here
+                        item.Category = ShopItemCategory.Misc;
                         item.price = 100;
                         Debug.Log("Registered Camera");
                     }
-                    if (item.displayName == "Radio");
+                    if (item.displayName == "Radio")
                     {
                         item.spawnable = true;
                         item.purchasable = true;
@@ -80,7 +74,7 @@ namespace ExampleCWPlugin
                         item.price = 200;
                         Debug.Log("Registered Dance 104");
                     }
-                    if (item.displayName == "")
+                    if (item.displayName == "Emote_Dance4TokTok")
                     {
                         item.spawnable = true;
                         item.purchasable = true;
@@ -153,5 +147,3 @@ namespace ExampleCWPlugin
         }
     }
 }
-
-
