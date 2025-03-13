@@ -25,6 +25,7 @@ namespace ExampleCWPlugin
                 foreach (var item in SingletonAsset<ItemDatabase>.Instance.Objects)
                 {
                     Debug.Log($"Found item: {item.displayName}");
+                    
 
                     if (item.displayName == "Camera")
                     {
