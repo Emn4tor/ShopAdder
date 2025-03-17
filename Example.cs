@@ -23,11 +23,13 @@ namespace ExampleCWPlugin
             
         }
 //add more
-        
+
 
         [HarmonyPatch(typeof(ShopViewScreen))]
         public class ShopViewScreenPatch
         {
+            //private static SettingsManager.ForceAllItems? forceAllItems;
+
             [HarmonyPatch("Awake"), HarmonyPostfix]
             static void AwakePatch(ShopViewScreen __instance)
             {
@@ -155,6 +157,7 @@ namespace ExampleCWPlugin
                         item.price = 150;
                         Debug.Log("Registered Winch");
                     }
+                    
                     else if(item.Category == ShopItemCategory.Invalid)
                     {
                         item.spawnable = true;
