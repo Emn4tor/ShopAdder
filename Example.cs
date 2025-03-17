@@ -5,10 +5,8 @@ using Zorro.Settings;
 using Zorro.Core;
 using System.Collections.Generic;
 using System.Reflection;
-using CessilCellsCeaChells.CeaChore;
 
-[assembly: RequiresEnumInsertion(typeof(ShopItemCategory), "TestCategory")]
-[assembly: RequiresEnumInsertion(typeof(LocalizationKeys.Keys), "TestCategory")]
+
 
 namespace ExampleCWPlugin
 {
@@ -174,5 +172,8 @@ namespace ExampleCWPlugin
                 
             }
         }
+        
     }
+    
+    
 }
