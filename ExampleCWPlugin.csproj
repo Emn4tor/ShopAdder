@@ -13,6 +13,10 @@
         <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Private="false"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CessilCellsCeaChells" Version="0.3.6" />
+    </ItemGroup>
+
     <Target Name="CopyOutputFileToGame" AfterTargets="Build">
         <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll;preview.png" DestinationFolder="$(CWDir)\Plugins\$(MSBuildProjectName)"/>
     </Target>

@@ -3,15 +3,29 @@ using Unity.Mathematics;
 using UnityEngine;
 using Zorro.Settings;
 using Zorro.Core;
+using System.Collections.Generic;
+using System.Reflection;
+using CessilCellsCeaChells.CeaChore;
+
+[assembly: RequiresEnumInsertion(typeof(ShopItemCategory), "TestCategory")]
+[assembly: RequiresEnumInsertion(typeof(LocalizationKeys.Keys), "TestCategory")]
 
 namespace ExampleCWPlugin
 {
+    
     [ContentWarningPlugin("emn4tor.ItemAdder", "1.0.0", true)]
     public class Example
     {
+        
+    
         static Example()
         {
+            
+            
+            
         }
+//add more
+        
 
         [HarmonyPatch(typeof(ShopViewScreen))]
         public class ShopViewScreenPatch
@@ -19,14 +33,17 @@ namespace ExampleCWPlugin
             [HarmonyPatch("Awake"), HarmonyPostfix]
             static void AwakePatch(ShopViewScreen __instance)
             {
+                
+                
                 Debug.Log("Starting to register items...");
+                
 
                 // Loop through all items in the ItemDatabase
                 foreach (var item in SingletonAsset<ItemDatabase>.Instance.Objects)
                 {
                     Debug.Log($"Found item: {item.displayName}");
                     
-
+                    
                     if (item.displayName == "Camera")
                     {
                         item.spawnable = true;
@@ -140,9 +157,20 @@ namespace ExampleCWPlugin
                         item.price = 150;
                         Debug.Log("Registered Winch");
                     }
+                    else if(item.Category == ShopItemCategory.Invalid)
+                    {
+                        item.spawnable = true;
+                        item.purchasable = true;
+                        item.Category = ShopItemCategory.Misc;
+                        item.price = 100;
+                        Debug.Log("Registered unknown Item");
+                    }
                     
+
+
                     
                 }
+                
                 
             }
         }
